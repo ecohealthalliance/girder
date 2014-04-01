@@ -64,6 +64,7 @@ def setup(test=False):
         }
     }
 
+    cherrypy.config.update({'global': { 'server.socket_host': '0.0.0.0', 'server.socket_port': 9999 }})
     cherrypy.config.update(appconf)
 
     if test:
