@@ -115,7 +115,7 @@ class Describe(Resource):
         return {
             'apiVersion': API_VERSION,
             'swaggerVersion': '1.2',
-            'basePath': cherrypy.url(),
+            'basePath': "%s/describe" % cherrypy.config['server']['api_root'],
             'apis': [{'path': '/{}'.format(resource)}
                      for resource in sorted(docs.discovery)]
         }
@@ -127,7 +127,7 @@ class Describe(Resource):
         return {
             'apiVersion': API_VERSION,
             'swaggerVersion': '1.2',
-            'basePath': os.path.dirname(os.path.dirname(cherrypy.url())),
+            'basePath': cherrypy.config['server']['api_root'],
             'apis': [{'path': route, 'operations': ops}
                      for route, ops in docs.routes[resource].iteritems()]
         }
