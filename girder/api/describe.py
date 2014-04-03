@@ -112,10 +112,11 @@ class Describe(Resource):
         self.route('GET', (':resource',), self.describeResource, nodoc=True)
 
     def listResources(self, params):
+        protocol = cherrypy.url().split(':')[0]
         return {
             'apiVersion': API_VERSION,
             'swaggerVersion': '1.2',
-            'basePath': "%s/describe" % cherrypy.config['server']['api_root'],
+            'basePath': "%s://%s/describe" % (protocol, cherrypy.config['server']['api_root']),
             'apis': [{'path': '/{}'.format(resource)}
                      for resource in sorted(docs.discovery)]
         }
@@ -124,10 +125,11 @@ class Describe(Resource):
         if not resource in docs.routes:
             raise RestException('Invalid resource: {}'.format(resource))
 
+        protocol = cherrypy.url().split(':')[0]
         return {
             'apiVersion': API_VERSION,
             'swaggerVersion': '1.2',
-            'basePath': cherrypy.config['server']['api_root'],
+            'basePath': "%s://%s" % (protocol, cherrypy.config['server']['api_root']),
             'apis': [{'path': route, 'operations': ops}
                      for route, ops in docs.routes[resource].iteritems()]
         }
