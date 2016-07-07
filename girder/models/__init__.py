@@ -51,6 +51,7 @@ def getDbConnection():
                                                    db_cfg['host'],
                                                    db_cfg['port'])
 
+    print "Using DB URI: %s" % _db_uri
     _db_connection = pymongo.MongoClient(_db_uri)
     print "Connected to MongoDB: %s" % _db_uri_redacted
     return _db_connection
